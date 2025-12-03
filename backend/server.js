@@ -10,11 +10,36 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const app = express();
-app.use(cors());
+
+// ----------------- ✅ การตั้งค่า CORS -----------------
+const allowedOrigins = [
+    'http://localhost:3001',
+    'http://localhost:3000',
+    'http://localhost:5173',
+    // ✅ เพิ่ม URL ของ Netlify จริง
+    'https://effervescent-sunflower-6358fa.netlify.app'
+];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true); 
+        if (allowedOrigins.includes(origin) || origin.endsWith('.netlify.app')) {
+            callback(null, true);
+        } else {
+            console.log(`❌ CORS Blocked: Origin ${origin} not allowed`);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+}));
+
 app.use(express.json());
 
-// ✅ เชื่อม MongoDB Atlas
-mongoose.connect("mongodb+srv://wutheringid701_db_user:y3HDNlMvmXFv64VM@cluster0.zffs8jm.mongodb.net/repair_system?retryWrites=true&w=majority")
+// ----------------- ✅ การเชื่อมต่อ MongoDB -----------------
+const mongoUri = process.env.MONGO_URI || "mongodb+srv://wutheringid701_db_user:y3HDNlMvmXFv64VM@cluster0.zffs8jm.mongodb.net/repair_system?retryWrites=true&w=majority";
+
+mongoose.connect(mongoUri)
   .then(() => console.log("✅ Connected to MongoDB Atlas"))
   .catch(err => console.error("❌ MongoDB connection error:", err));
 
@@ -77,7 +102,7 @@ function adminOnly(req, res, next) {
 
 // ------------------ Routes ------------------
 
-// ✅ Route หลัก (กัน Cannot GET /)
+// ✅ Route หลัก
 app.get('/', (req, res) => {
   res.send('✅ Repair System Backend is running!');
 });
@@ -95,7 +120,7 @@ app.post('/api/auth/login', async (req, res) => {
   res.json({ token });
 });
 
-// ✅ API: แจ้งซ่อม (ทุกคนส่งได้)
+// ✅ API: แจ้งซ่อม
 app.post("/api/requests", async (req, res) => {
   try {
     const newRequest = new Request({
@@ -139,7 +164,7 @@ app.get("/api/requests", async (req, res) => {
   }
 });
 
-// ✅ API: เปลี่ยนสถานะคำร้อง (เฉพาะแอดมิน)
+// ✅ API: เปลี่ยนสถานะคำร้อง
 app.patch("/api/requests/:id", authRequired, adminOnly, async (req, res) => {
   try {
     const updated = await Request.findByIdAndUpdate(
@@ -154,7 +179,7 @@ app.patch("/api/requests/:id", authRequired, adminOnly, async (req, res) => {
   }
 });
 
-// ✅ API: ลบรายการแจ้งซ่อมที่เก่ากว่า 30 วัน (เฉพาะแอดมิน)
+// ✅ API: ลบรายการแจ้งซ่อมที่เก่ากว่า 30 วัน
 app.delete("/api/requests/older-than-30-days", authRequired, adminOnly, async (req, res) => {
   try {
     const today = new Date();
@@ -167,7 +192,7 @@ app.delete("/api/requests/older-than-30-days", authRequired, adminOnly, async (r
   }
 });
 
-// ✅ API: แจ้งเหตุการณ์ (ทุกคนส่งได้)
+// ✅ API: แจ้งเหตุการณ์
 app.post("/api/incidents", async (req, res) => {
   try {
     const newIncident = new Incident({
@@ -181,8 +206,8 @@ app.post("/api/incidents", async (req, res) => {
   }
 });
 
-// ✅ เริ่มเซิร์ฟเวอร์
+// ----------------- ✅ เริ่มเซิร์ฟเวอร์ -----------------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
