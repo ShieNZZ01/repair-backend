@@ -77,6 +77,11 @@ function adminOnly(req, res, next) {
 
 // ------------------ Routes ------------------
 
+// ✅ Route หลัก (กัน Cannot GET /)
+app.get('/', (req, res) => {
+  res.send('✅ Repair System Backend is running!');
+});
+
 // ✅ ล็อกอินแอดมิน
 app.post('/api/auth/login', async (req, res) => {
   const { username, password } = req.body;
@@ -106,8 +111,6 @@ app.post("/api/requests", async (req, res) => {
 });
 
 // ✅ API: ดูรายการแจ้งซ่อม
-// - ถ้า query มี reporter → ผู้ใช้ทั่วไปดูของตัวเองได้
-// - ถ้าไม่มี reporter → ต้องเป็น admin และส่ง token
 app.get("/api/requests", async (req, res) => {
   try {
     const { reporter } = req.query;
@@ -115,7 +118,6 @@ app.get("/api/requests", async (req, res) => {
       const list = await Request.find({ reporter });
       return res.json(list);
     } else {
-      // ต้องตรวจสิทธิ์แอดมิน
       const auth = req.headers.authorization;
       if (!auth || !auth.startsWith('Bearer ')) {
         return res.status(401).json({ error: 'ต้องการการยืนยันตัวตน' });
