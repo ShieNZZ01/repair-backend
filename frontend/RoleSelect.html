@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>IT Equipment Maintenance Request</title>
+  <link rel="stylesheet" href="./RoleSelect.css">
+</head>
+<body>
+  <div class="role-box">
+    <h2>IT Equipment Maintenance Request</h2>
+
+    <div class="input-group">
+      <select id="roleSelect">
+        <option value="">-- กรุณาเลือกการให้บริการ --</option>
+        <option value="admin">ดูการแจ้งซ่อมทั้งหมด (เฉพาะ Admin)</option>
+        <option value="reporter">เลือกชื่อผู้แจ้งซ่อม</option>
+      </select>
+
+      <!-- ช่องกรอกชื่อผู้แจ้ง -->
+      <input type="text" id="reporterInput" placeholder="กรอกชื่อผู้แจ้ง..." style="display:none;" />
+
+      <!-- ช่องกรอกยูสเซอร์และรหัสผ่านของ Admin -->
+      <input type="text" id="adminUser" placeholder="กรอกยูสเซอร์แอดมิน..." style="display:none;" />
+      <input type="password" id="adminPass" placeholder="กรอกรหัสผ่านแอดมิน..." style="display:none;" />
+    </div>
+
+    <div class="btn-group">
+      <button onclick="goToList()">เข้าสู่ระบบ</button>
+      <button onclick="goToReport()">แจ้งซ่อมอุปกรณ์</button>
+    </div>
+  </div>
+
+  <script>
+    const roleSelect = document.getElementById('roleSelect');
+    const reporterInput = document.getElementById('reporterInput');
+    const adminUser = document.getElementById('adminUser');
+    const adminPass = document.getElementById('adminPass');
+
+    // แสดง/ซ่อนช่องกรอกตามบทบาท
+    roleSelect.addEventListener('change', () => {
+      if (roleSelect.value === 'reporter') {
+        reporterInput.style.display = 'block';
+        adminUser.style.display = 'none';
+        adminPass.style.display = 'none';
+      } else if (roleSelect.value === 'admin') {
+        reporterInput.style.display = 'none';
+        adminUser.style.display = 'block';
+        adminPass.style.display = 'block';
+      } else {
+        reporterInput.style.display = 'none';
+        adminUser.style.display = 'none';
+        adminPass.style.display = 'none';
+      }
+    });
+
+    // ฟังก์ชันเข้าสู่ระบบ
+    async function goToList() {
+      const role = roleSelect.value;
+      if (!role) return alert('กรุณาเลือกบทบาท');
+
+      if (role === 'reporter') {
+        const name = reporterInput.value.trim();
+        if (!name) return alert('กรุณากรอกชื่อผู้แจ้ง');
+        window.location.href = `./List.html?reporter=${encodeURIComponent(name)}`;
+        return;
+      }
+
+      if (role === 'admin') {
+        const user = adminUser.value.trim();
+        const pass = adminPass.value.trim();
+        if (!user || !pass) return alert('กรุณากรอกยูสเซอร์และรหัสผ่านแอดมิน');
+
+        try {
+          const resp = await fetch('http://localhost:3000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: user, password: pass })
+          });
+          const data = await resp.json();
+          if (!resp.ok) return alert(data.error || 'ล็อกอินล้มเหลว');
+
+          // เก็บ JWT
+          sessionStorage.setItem('token', data.token);
+          // ไปหน้า List ของ admin
+          window.location.href = './List.html?role=admin';
+        } catch (err) {
+          alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
+        }
+      }
+    }
+
+    function goToReport() {
+      window.location.href = './Report.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Orbitron', sans-serif;
+  background:
+    linear-gradient(rgba(0, 10, 20, 0.9), rgba(0, 10, 20, 0.95)),
+    url('bg.png') no-repeat center center fixed;
+  background-size: cover;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
+  animation: bgPulse 10s infinite alternate ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: #bdeaff;
+}
+
+@keyframes bgPulse {
+  0% { filter: brightness(0.9) hue-rotate(0deg); }
+  50% { filter: brightness(1.2) hue-rotate(30deg); }
+  100% { filter: brightness(0.9) hue-rotate(60deg); }
+}
+
+/* ---------- กล่องหลัก ---------- */
+.role-box {
+  background: rgba(20, 24, 30, 0.92);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  box-shadow: 0 0 30px rgba(0, 180, 255, 0.25);
+  border-radius: 28px;
+  padding: 84px;
+  width: 100%;
+  max-width: 910px;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(35px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- หัวข้อ ---------- */
+h2 {
+  font-size: 50px;
+  color: #00e0ff;
+  text-shadow: 0 0 16px rgba(0, 224, 255, 0.7);
+  margin-bottom: 56px;
+}
+
+/* ---------- กลุ่มช่องกรอก ---------- */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+/* ---------- ช่องเลือกและช่องกรอก ---------- */
+.input-group select,
+.input-group input {
+  width: 100%;
+  padding: 22px;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  background-color: rgba(42, 50, 58, 0.95);
+  color: #bdeaff;
+  font-size: 25px;
+  outline: none;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.input-group select:focus,
+.input-group input:focus {
+  border-color: #00e0ff;
+  box-shadow: 0 0 14px rgba(0, 224, 255, 0.6);
+  background-color: rgba(50, 60, 70, 0.95);
+}
+
+/* ---------- ปุ่ม ---------- */
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+button {
+  width: 100%;
+  background: linear-gradient(90deg, #004d61, #008793);
+  color: #e8fbff;
+  padding: 25px;
+  border: none;
+  border-radius: 14px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 14px rgba(0, 180, 255, 0.25);
+}
+
+button:hover {
+  background: linear-gradient(90deg, #00b4db, #0083b0);
+  box-shadow: 0 0 35px rgba(0, 224, 255, 0.6);
+  transform: scale(1.03);
+}
+
+/* ---------- ช่องชื่อ ---------- */
+#reporterInput {
+  display: none;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  .role-box {
+    padding: 56px 35px;
+    max-width: 126%;
+  }
+
+  h2 {
+    font-size: 34px;
+  }
+
+  .input-group select,
+  .input-group input,
+  button {
+    font-size: 22px;
+    padding: 20px;
+  }
+}

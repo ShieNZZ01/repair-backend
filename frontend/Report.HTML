@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>แจ้งซ่อมอุปกรณ์</title>
+  <link rel="stylesheet" href="/frontend/style.css"> <!-- ใช้ CSS neon dark ที่แก้ไว้ -->
+</head>
+<body>
+
+  <div class="form-container">
+    <!-- ปุ่มกลับ -->
+    <div class="back-wrapper">
+      <button class="btn-back" onclick="window.location.href='RoleSelect.html'">
+        🔙 กลับไปหน้าให้บริการ
+      </button>
+    </div>
+
+    <!-- หัวข้อ -->
+    <h2>แจ้งซ่อมอุปกรณ์</h2>
+
+    <!-- ฟอร์มแจ้งซ่อม -->
+    <form id="repairForm">
+      <label for="reporter">ชื่อผู้แจ้ง:</label>
+      <input type="text" id="reporter" name="reporter" required>
+
+      <label for="problem">รายละเอียดปัญหา:</label>
+      <textarea id="problem" name="problem" rows="5" required></textarea>
+
+      <label for="device">หมวดหมู่อุปกรณ์:</label>
+      <select id="device" name="device" required>
+        <option value="">-- กรุณาเลือก --</option>
+        <option value="คอมพิวเตอร์">คอมพิวเตอร์</option>
+        <option value="เครื่องพิมพ์">เครื่องพิมพ์</option>
+        <option value="อื่น ๆ">อื่น ๆ</option>
+      </select>
+
+      <label for="date">วันที่แจ้ง:</label>
+      <input type="date" id="date" name="date" required>
+
+      <!-- ปุ่มส่งและล้าง -->
+      <div class="button-wrapper">
+        <button type="submit" class="btn-submit">ส่งข้อมูล</button>
+        <button type="reset" class="btn-clear">ล้างข้อมูล</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // ตั้งค่า default วันที่เป็นวันนี้
+    document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+    // จัดการ submit ฟอร์ม
+    document.getElementById('repairForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('http://localhost:3000/api/requests', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          alert('ส่งข้อมูลเรียบร้อยแล้ว');
+          e.target.reset();
+          document.getElementById('date').value = new Date().toISOString().split('T')[0];
+        } else {
+          const error = await response.json();
+          alert('เกิดข้อผิดพลาด: ' + (error.message || 'ไม่สามารถส่งข้อมูลได้'));
+        }
+      } catch (err) {
+        alert('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์');
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

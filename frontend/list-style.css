@@ -1,0 +1,276 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Orbitron', sans-serif;
+  background:
+    linear-gradient(rgba(0, 10, 20, 0.9), rgba(0, 10, 20, 0.95)),
+    url('bg.png') no-repeat center center fixed;
+  background-size: cover;
+  background-attachment: fixed;
+  background-blend-mode: overlay;
+  animation: bgPulse 10s infinite alternate ease-in-out;
+  margin: 0;
+  padding: 30px;
+  color: #bdeaff;
+  min-height: 100vh;
+}
+
+@keyframes bgPulse {
+  0% { filter: brightness(0.9) hue-rotate(0deg); }
+  50% { filter: brightness(1.2) hue-rotate(30deg); }
+  100% { filter: brightness(0.9) hue-rotate(60deg); }
+}
+
+/* ---------- Container ---------- */
+.container {
+  max-width: 1000px;
+  margin: auto;
+  background: rgba(20, 24, 30, 0.92);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  box-shadow: 0 0 24px rgba(0, 180, 255, 0.2);
+  border-radius: 22px;
+  padding: 36px;
+  backdrop-filter: blur(6px);
+}
+
+/* ---------- Heading ---------- */
+h2 {
+  text-align: center;
+  margin-bottom: 26px;
+  color: #00e0ff;
+  font-size: 34px;
+  font-weight: 600;
+  text-shadow: 0 0 12px rgba(0, 224, 255, 0.6);
+}
+
+/* ---------- Back Button ---------- */
+.btn-right {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 22px;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #223b46, #335e68);
+  color: #e8fbff;
+  padding: 14px 26px;
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(0, 180, 255, 0.25);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, #00b4db, #0083b0);
+  box-shadow: 0 0 24px rgba(0, 224, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+/* ---------- Search Box ---------- */
+.search-box {
+  text-align: right;
+  margin-bottom: 18px;
+}
+
+.search-box input {
+  padding: 12px 16px;
+  width: 360px;
+  border: 1px solid rgba(0, 180, 255, 0.35);
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: rgba(60, 70, 80, 0.95);
+  color: #e0f7ff;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-box input::placeholder {
+  color: #bdeaff;
+}
+
+.search-box input:focus {
+  border-color: #00e0ff;
+  box-shadow: 0 0 14px rgba(0, 224, 255, 0.6);
+  background-color: rgba(70, 80, 90, 0.95);
+}
+
+/* ---------- Table ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 15px;
+  background: transparent;
+}
+
+thead {
+  background: linear-gradient(90deg, rgba(0, 120, 180, 0.35), rgba(0, 224, 255, 0.18));
+  color: #e8fbff;
+}
+
+thead th {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 180, 255, 0.35);
+  font-weight: 600;
+}
+
+tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0, 180, 255, 0.25);
+  color: #e0f7ff;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: rgba(42, 50, 58, 0.35);
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgba(30, 36, 45, 0.35); /* ✅ เข้าธีมมืด */
+}
+
+tbody tr:hover td {
+  background-color: rgba(50, 60, 70, 0.45);
+}
+
+
+.status-select {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 224, 255, 0.5);
+  background: linear-gradient(90deg, rgba(10,20,30,0.95), rgba(20,30,40,0.95));
+  color: #e0f7ff;
+  font-size: 16px;
+  font-family: 'Orbitron', sans-serif;
+  box-shadow: 0 0 12px rgba(0, 224, 255, 0.2);
+  outline: none;
+  transition: all 0.3s ease;
+  appearance: none;
+
+  /* ✅ ลูกศร dropdown แบบ SVG สีฟ้า */
+  background-image: url("data:image/svg+xml,%3Csvg fill='%23bdeaff' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.status-select option {
+  background-color: #101820;
+  color: #e0f7ff;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.status-select:focus {
+  border-color: #00e0ff;
+  box-shadow: 0 0 16px rgba(0, 224, 255, 0.5);
+}
+
+
+
+/* ---------- Detail Button ---------- */
+.btn-detail {
+  padding: 10px 14px;
+  background: linear-gradient(90deg, #004d61, #008793);
+  color: #e8fbff; /* ✅ แก้ให้มีค่า */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(0, 180, 255, 0.25);
+  transition: all 0.3s ease;
+}
+
+.btn-detail:hover {
+  background: linear-gradient(90deg, #00b4db, #0083b0);
+  box-shadow: 0 0 24px rgba(0, 224, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+/* ---------- Modal Overlay ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 10, 20, 0.6);
+  z-index: 998;
+  display: none;
+  backdrop-filter: blur(2px);
+}
+
+/* ---------- Modal Box ---------- */
+.modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(30, 36, 45, 0.98);
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 0 28px rgba(0, 180, 255, 0.4);
+  z-index: 999;
+  width: 90%;
+  max-width: 560px;
+  max-height: 80vh;
+  overflow-y: auto;
+  font-size: 16px;
+  color: #e0f7ff;
+  border: 1px solid rgba(0, 180, 255, 0.35);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  display: none; /* ✅ ปิด modal เริ่มต้น */
+}
+
+/* ---------- Modal Content ---------- */
+#modalContent {
+  padding: 10px;
+  line-height: 1.6;
+}
+
+/* ---------- Modal Close Button ---------- */
+.modal-close {
+  margin-top: 18px;
+  background: linear-gradient(90deg, #ff4d4d, #cc0000);
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(255, 80, 80, 0.4);
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: linear-gradient(90deg, #ff1a1a, #990000);
+  box-shadow: 0 0 28px rgba(255, 0, 0, 0.6);
+  transform: translateY(-1px);
+}
+
+/* ---------- Row Background Classes (ใช้กับ JS) ---------- */
+.row-dark {
+  background: linear-gradient(90deg, rgba(20,30,40,0.6), rgba(30,40,50,0.6));
+  backdrop-filter: blur(2px);
+  transition: background 0.3s ease;
+}
+
+.row-light {
+  background: linear-gradient(90deg, rgba(30,40,50,0.4), rgba(40,50,60,0.4));
+  backdrop-filter: blur(2px);
+  transition: background 0.3s ease;
+}
+
+tbody tr:hover td {
+  background-color: rgba(0, 224, 255, 0.08);
+  box-shadow: inset 0 0 12px rgba(0, 224, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
